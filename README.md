@@ -1,2 +1,2 @@
 # pipeline_tools
-Tools required to create a pipeline with GBQ using my preffered worflow.
+Tools required to create a pipeline with GBQ using my prefered worflow.
