@@ -1,20 +1,21 @@
-from google.cloud import bigquery
+import pandas
+import pandas_gbq
 
-#Construct a BigQuery client object.
-#Specify project to query from. Check gbq_query file to setup credentials locally.
-client = bigquery.Client(project='YOUR_PROJECT')
+#Replace PROJECT
+project_id = "PROJECT"
 
-#Set TABLE_ID to the ID of the destination table.
-table_id = "TABLE_ID"
+#Replace DATASET.TABLE
+table_id = 'DATASET.TABLE'
 
-job_config = bigquery.QueryJobConfig(destination=table_id)
+df = pandas.DataFrame(
+    {
+        "my_string": ["a", "b", "c"],
+        "my_int64": [1, 2, 3],
+        "my_float64": [4.0, 5.0, 6.0],
+        "my_bool1": [True, False, True],
+        "my_bool2": [False, True, False],
+        "my_dates": pandas.date_range("now", periods=3),
+    }
+)
 
-sql = """
---Insert query here.
-"""
-
-# Start the query, passing in the extra configuration.
-query_job = client.query(sql, job_config=job_config)  # Make an API request.
-query_job.result()  # Wait for the job to complete.
-
-print(f"Query results loaded to the table {table_id}".)
+pandas_gbq.to_gbq(df, table_id, project_id=project_id)
